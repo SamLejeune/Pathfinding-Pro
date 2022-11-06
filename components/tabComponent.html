@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabbed Component</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Poppins';
+        font-weight: 300;
+        letter-spacing: 0.7px;
+      }
+
+      .menu-container {
+        background-color: #e9ecef;
+        width: 800px;
+        border-radius: 0 8px 8px 8px;
+        margin-top: 70px;
+        font-size: 14px;
+        position: relative;
+      }
+
+      .navigation-menu {
+        display: flex;
+        position: absolute;
+        gap: 8px;
+        top: 10px;
+        margin-top: 20px;
+      }
+
+      .navigation-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: #495057;
+        color: #fff;
+        height: 40px;
+        width: 150px;
+        border-radius: 8px 8px 0 0;
+
+        position: relative;
+        font-weight: 500;
+
+        cursor: pointer;
+      }
+
+      .active--navigation-button {
+        background-color: #e9ecef;
+        color: #495057;
+      }
+
+      .menu-settings-container--table {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        height: 100px;
+        padding: 15px;
+      }
+
+      .menu-settings-container--slider {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .menu-settings-container--draw,
+      .menu-settings-container--play {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 24px;
+      }
+
+      .menu-input-container--slider {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .menu-input-container--slider label {
+        padding: 8px;
+      }
+
+      .menu-settings-container--checkbox {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        font-size: 12px;
+      }
+
+      .menu-input-container--checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .custom-select {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .custom-select--label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 8px 12px;
+        background-color: #fff;
+        width: 200px;
+        height: 16px;
+        cursor: pointer;
+
+        position: relative;
+      }
+
+      .custom-select--label svg {
+        height: 22px;
+        width: 22px;
+        stroke: #495057;
+      }
+
+      .custom-select--options {
+        position: absolute;
+        top: 32px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        background-color: #fff;
+        width: 224px;
+        height: 100px;
+        padding-top: 8px;
+      }
+
+      .custom-select option {
+        display: flex;
+        align-items: center;
+        height: 50px;
+        padding-left: 12px;
+        font-weight: 300;
+      }
+
+      .menu-input-container--btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #495057;
+        /* width: 120px; */
+        width: auto;
+        padding: 12px;
+        height: 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        box-sizing: border-box;
+        /* background-color: red; */
+      }
+
+      .menu-input-container--btn:active {
+        border: none;
+      }
+
+      .draw-btn--icon {
+        height: 24px;
+        width: 24px;
+        stroke: #495057;
+      }
+
+      .custom-select--options option:hover,
+      .menu-input-container--btn:hover {
+        background-color: #f8f9fa;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .active--navigation-button {
+        background-color: #e9ecef;
+        color: #495057;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="menu-container">
+      <div class="table menu-settings-container--table hidden">
+        <div class="menu-settings-container--slider">
+          <div class="menu-input-container--slider">
+            <label>Columns</label>
+            <input type="range" />
+          </div>
+          <div class="menu-input-container--slider">
+            <label>Rows</label>
+            <input type="range" />
+          </div>
+        </div>
+        <div class="menu-settings-container--checkbox">
+          <div class="menu-input-container--checkbox">
+            <input type="checkbox" />
+            <label>Show f, g, and h on hover</label>
+          </div>
+          <div class="menu-input-container--checkbox">
+            <input type="checkbox" />
+            <label>Show neighbours on highlight</label>
+          </div>
+          <div class="menu-input-container--checkbox">
+            <input type="checkbox" />
+            <label>Show distance line to end on hover</label>
+          </div>
+        </div>
+        <div class="menu-settings-container--dropdown">
+          <div class="menu-input-container--dropdown">
+            <div class="custom-select">
+              <div class="custom-select--label">
+                <span>Select heuristic</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="192"
+                  height="192"
+                  fill="#000000"
+                  viewBox="0 0 256 256"
+                >
+                  <polyline
+                    points="208 96 128 176 48 96"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="26"
+                  ></polyline>
+                </svg>
+              </div>
+              <div class="custom-select--options hidden">
+                <option>Manhattan Distance</option>
+                <option>Diagonal Distance</option>
+                <option>Euclidean Distance</option>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="draw menu-settings-container--table hidden">
+        <div class="menu-settings-container--draw">
+          <span>Add Start & End cell</span>
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#000000"
+              viewBox="0 0 256 256"
+            >
+              <circle
+                cx="128"
+                cy="128"
+                r="96"
+                fill="none"
+                stroke-miterlimit="10"
+                stroke-width="16"
+              ></circle>
+            </svg>
+            <span>Start cell</span>
+          </div>
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#000000"
+              viewBox="0 0 256 256"
+            >
+              <line
+                x1="200"
+                y1="56"
+                x2="56"
+                y2="200"
+                stroke="#000000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></line>
+              <line
+                x1="200"
+                y1="200"
+                x2="56"
+                y2="56"
+                stroke="#000000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></line>
+            </svg>
+            <span>End cell</span>
+          </div>
+        </div>
+        <div class="menu-settings-container--draw">
+          <span>Draw cell types</span>
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="192"
+              height="192"
+              viewBox="0 0 256 256"
+            >
+              <rect
+                x="40"
+                y="40"
+                width="176"
+                height="176"
+                rx="8"
+                stroke-width="16"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="#495057"
+              ></rect>
+            </svg>
+            <span>Blocked cell</span>
+          </div>
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="192"
+              height="192"
+              viewBox="0 0 256 256"
+            >
+              <rect
+                x="40"
+                y="40"
+                width="176"
+                height="176"
+                rx="8"
+                stroke-width="16"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke="#c92a2a"
+                fill="#c92a2a"
+              ></rect>
+            </svg>
+            <span>Avoid cell</span>
+          </div>
+        </div>
+        <div class="menu-settings-container--draw">
+          <span>Erase cells</span>
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="192"
+              height="192"
+              viewBox="0 0 256 256"
+            >
+              <line
+                x1="91.55018"
+                y1="99.54921"
+                x2="159.43243"
+                y2="167.43146"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></line>
+              <path
+                d="M216.00049,215.83348H72.07L34.98164,178.74517a16,16,0,0,1,0-22.62742L148.11873,42.98066a16,16,0,0,1,22.62741,0L216.001,88.2355a16,16,0,0,1,0,22.62742L111.03042,215.83347"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></path>
+            </svg>
+            <span>Erase</span>
+          </div>
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="192"
+              height="192"
+              viewBox="0 0 256 256"
+            >
+              <line
+                x1="160"
+                y1="96"
+                x2="96"
+                y2="160"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></line>
+              <line
+                x1="160"
+                y1="160"
+                x2="96"
+                y2="96"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></line>
+              <rect
+                x="40"
+                y="40"
+                width="176"
+                height="176"
+                rx="8"
+                stroke-width="16"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              ></rect>
+            </svg>
+            <span>Erase all</span>
+          </div>
+        </div>
+      </div>
+      <div class="menu-settings-container--table">
+        <div class="menu-settings-container--play">
+          <div class="menu-input-container--slider">
+            <label>Game speed</label>
+            <input type="range" />
+          </div>
+        </div>
+        <div class="menu-settings-container--play">
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="192"
+              height="192"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M228.14833,121.17381,84.1717,33.18517A8,8,0,0,0,72,40.01136V215.98864a8,8,0,0,0,12.1717,6.82619l143.97663-87.98864A8,8,0,0,0,228.14833,121.17381Z"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></path>
+            </svg>
+            <span>Play</span>
+          </div>
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="192"
+              height="192"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M188.82976,121.17374,68.1716,47.4382A8,8,0,0,0,56,54.26445v147.4711a8,8,0,0,0,12.1716,6.82625l120.65816-73.73555A8,8,0,0,0,188.82976,121.17374Z"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></path>
+              <line
+                x1="200"
+                y1="40"
+                x2="200"
+                y2="216"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></line>
+            </svg>
+            <span>Step</span>
+          </div>
+        </div>
+        <div class="menu-settings-container--play">
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="192"
+              height="192"
+              viewBox="0 0 256 256"
+            >
+              <rect
+                x="156"
+                y="40"
+                width="52"
+                height="176"
+                rx="8"
+                stroke-width="16"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              ></rect>
+              <rect
+                x="48"
+                y="40"
+                width="52"
+                height="176"
+                rx="8"
+                stroke-width="16"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              ></rect>
+            </svg>
+            <span>Pause</span>
+          </div>
+          <div class="menu-input-container--btn">
+            <svg
+              class="draw-btn--icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="192"
+              height="192"
+              viewBox="0 0 256 256"
+            >
+              <polyline
+                points="79.833 99.716 31.833 99.716 31.833 51.716"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></polyline>
+              <path
+                d="M65.7746,190.2254a88,88,0,1,0,0-124.4508L31.83348,99.71573"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="16"
+              ></path>
+            </svg>
+            <span>Replay</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <nav class="navigation-menu">
+      <div class="navigation-button">
+        <span>Configure</span>
+      </div>
+      <div class="navigation-button">
+        <span>Draw</span>
+      </div>
+      <div class="navigation-button active--navigation-button">
+        <span>Play</span>
+      </div>
+    </nav>
+  </body>
+</html>
