@@ -34,9 +34,12 @@ class MarkPositionStart extends MarkPositionView {
     cellEl.classList.add('cell--start');
   }
 
-  initStartMarker() {
+  initStartMarker(rows, cols) {
+    const x = Math.floor(rows / 2);
+    const y = Math.floor(cols / 6) - 1;
+
     const initCellEl = this._parentElement.querySelector(
-      '[data-x="14"][data-y="9"]'
+      `[data-x="${x}"][data-y="${y}"]`
     );
 
     initCellEl.innerHTML = this._markup;
