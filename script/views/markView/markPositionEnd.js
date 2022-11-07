@@ -32,9 +32,12 @@ class MarkPositionEnd extends MarkPositionView {
     cellEl.classList.add('cell--end');
   }
 
-  initEndMarker() {
+  initEndMarker(rows, cols) {
+    const x = Math.floor(rows / 2);
+    const y = cols - Math.floor(cols / 6);
+
     const initCellEl = this._parentElement.querySelector(
-      '[data-x="14"][data-y="45"]'
+      `[data-x="${x}"][data-y="${y}"]`
     );
 
     initCellEl.innerHTML = this._markup;
