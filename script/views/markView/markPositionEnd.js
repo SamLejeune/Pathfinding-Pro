@@ -75,5 +75,3 @@ class MarkPositionEnd extends MarkPositionView {
 }
 
 export default new MarkPositionEnd();
-
-// Create a new render function that you call in the controller once the render is complete. This will call everytime you move the end flag
