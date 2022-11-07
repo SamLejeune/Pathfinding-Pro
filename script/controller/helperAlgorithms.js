@@ -18,7 +18,10 @@ export const promisifyTimeout = function (ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-export const controlGridArray = function (nCols, nRows) {
+export const controlGridArray = function () {
+  const nRows = tableView.getTableRows();
+  const nCols = tableView.getTableColumns();
+
   // Grid columns = table view columns
   grid.setColumns(nCols);
   tableView.generateRows(nCols);
@@ -34,11 +37,11 @@ export const controlGridArray = function (nCols, nRows) {
   grid.callFindNeighbours();
 
   //Mark start and end points:
-  markPositionStart.initStartMarker();
-  markPositionEnd.initEndMarker();
+  markPositionStart.initStartMarker(nRows, nCols);
+  markPositionEnd.initEndMarker(nRows, nCols);
 };
 // Call on page load:
-controlGridArray(29, 55);
+controlGridArray();
 
 export const controlSetStart = function () {
   const startCoords = markPositionStart.getMarkerCoords();
