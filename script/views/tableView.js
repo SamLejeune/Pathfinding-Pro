@@ -1,7 +1,12 @@
 class TableView {
   parentElement = document.querySelector('.table');
+  rows;
+  columns;
 
   constructor() {
+    this._setTableRows();
+    this._setTableColumns();
+
     this._openMarkup = this._setOpenMarkup();
     this._closedMarkup = this._setClosedMarkup();
   }
@@ -14,7 +19,7 @@ class TableView {
   generateRows(rows) {
     this._clearInnerHTML();
 
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i < this.rows; i++) {
       const rowEl = document.createElement('tr');
       this.parentElement.insertAdjacentElement('beforeend', rowEl);
       rowEl.classList.add(`row--${i}`);
@@ -22,8 +27,8 @@ class TableView {
   }
 
   generateCells(rows, columns) {
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < columns; j++) {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
         const cellEl = document.createElement('td');
         const rowEl = document.querySelector(`.row--${i}`);
 
@@ -82,6 +87,22 @@ class TableView {
     });
 
     pathCellEl.classList.add('path');
+  }
+
+  getTableRows() {
+    return this.rows;
+  }
+
+  getTableColumns() {
+    return this.columns;
+  }
+
+  _setTableRows() {
+    this.rows = Math.floor(window.innerHeight / 27) - 3;
+  }
+
+  _setTableColumns() {
+    this.columns = Math.floor(window.innerWidth / 27) - 1;
   }
 
   _getTableType() {
