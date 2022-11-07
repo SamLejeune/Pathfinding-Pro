@@ -31,10 +31,9 @@ button {
 .table-container {
   position: absolute;
   top: 65px;
-  left: 1%;
-  height: auto;
-  width: auto;
-  /* margin: none; */
+  display: flex;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 .table {
